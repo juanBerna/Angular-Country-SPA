@@ -1,6 +1,10 @@
-import { Component, input } from "@angular/core";
+import { Component, inject, input, resource, signal } from "@angular/core";
 import { CoutrySearch } from "../../components/coutry-search/coutry-search";
 import { CountryList } from "../../components/country-list/country-list";
+import { CountryService } from "../../services/country.service";
+import { Object } from "../../interfaces/res-countries.interfaces";
+import { firstValueFrom, of } from "rxjs";
+import { rxResource } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-by-capital-page",
@@ -9,8 +13,15 @@ import { CountryList } from "../../components/country-list/country-list";
 })
 export class ByCapitalPageComponent {
 
+  countryServive = inject(CountryService);
+  query = signal<string>("");
 
-  searchByCapital(value: string) {
-    console.log("Searching by capital...", value);
-  }
+capitalResource = rxResource({
+    params: ()=>  ({query:this.query()}),
+    stream: ({params}: {params: {query: string}}) => {
+      if(!params.query) return of([]);
+      return this.countryServive.searchByCapital(params.query);
+    }
+  });
+
 }

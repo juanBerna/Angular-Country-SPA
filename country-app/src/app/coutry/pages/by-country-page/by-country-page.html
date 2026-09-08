@@ -1,4 +1,10 @@
-<app-coutry-search placeholder="Search by country..." (value)="searchByCountry($event)"></app-coutry-search>
+<app-coutry-search placeholder="Search by country..." (value)="query.set($event)"></app-coutry-search>
 
  <!-- country-list -->
-<app-country-list></app-country-list>
+  @if (countryResource.error()) {
+    <p class="text-danger">{{ countryResource.error() }}</p>
+  } @if(countryResource.hasValue()) {
+    <app-country-list
+      [isLoading]="countryResource.isLoading()"
+      [countries]="countryResource.value()!"></app-country-list>
+  }
