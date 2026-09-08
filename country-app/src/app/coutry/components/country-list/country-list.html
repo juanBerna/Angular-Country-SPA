@@ -1,0 +1,43 @@
+<section class="mt-5">
+  <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+  <table class="table">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Icon</th>
+        <th>Pais</th>
+        <th>Población</th>
+        <th>Detalles</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- row 1 -->
+      @for (country of countries(); track country.uuid; let index = $index) {
+         <tr>
+           <td>{{index + 1}}</td>
+           <td>{{country.flag.emoji}}</td>
+          <td>{{country.names.common}}</td>
+           <td >
+            {{country.population | number}}
+          </td>
+           <td>{{country.descriptions.short}}
+            <a [routerLink]="['/country/by', country.uuid]">Ver detalles</a>
+           </td>
+          </tr>
+        }
+        @if (errorMessage()) {
+          <tr>
+            <td colspan="5" class="text-center text-error">No se encontro resultado, revise su consulta</td>
+          </tr>
+        }
+        @if (isLoading()) {
+          <tr>
+            <td colspan="5" class="text-center text-info">Cargando...</td>
+          </tr>
+        }
+    </tbody>
+  </table>
+</div>
+</section>
+

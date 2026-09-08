@@ -1,0 +1,8 @@
+<app-coutry-search placeholder="Search by capital..." (value)="query.set($event)"></app-coutry-search>
+
+ <!-- country-list -->
+  @if (capitalResource.error()) {
+    <p class="text-danger">{{ capitalResource.error() }}</p>
+  } @if(capitalResource.hasValue()) {
+    <app-country-list [countries]="capitalResource.value()!"></app-country-list>
+  }
